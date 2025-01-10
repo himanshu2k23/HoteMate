@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,17 +48,7 @@ body {
 	<script>
 		window.onload = function() {
 			if (localStorage.getItem('scrollToContact') === 'true') {
-				var aboutElement = document.getElementById("contact");
-				if (aboutElement) {
-					window.scrollTo({
-						top : aboutElement.offsetTop - 100,
-						behavior : 'smooth'
-					});
-				}
-				localStorage.removeItem('scrollToContact');
-			}
-			if (localStorage.getItem('scrollToFeatures') === 'true') {
-				var featuresElement = document.getElementById("features");
+				var featuresElement = document.getElementById("contact");
 				if (featuresElement) {
 					window.scrollTo({
 						top : featuresElement.offsetTop - 100,
@@ -66,6 +56,17 @@ body {
 					});
 				}
 				localStorage.removeItem('scrollToFeatures');
+			}
+
+			if (localStorage.getItem('scrollToAbout') === 'true') {
+				var aboutElement = document.getElementById("about");
+				if (aboutElement) {
+					window.scrollTo({
+						top : aboutElement.offsetTop - 100,
+						behavior : 'smooth'
+					});
+				}
+				localStorage.removeItem('scrollToAbout');
 			}
 		};
 	</script>

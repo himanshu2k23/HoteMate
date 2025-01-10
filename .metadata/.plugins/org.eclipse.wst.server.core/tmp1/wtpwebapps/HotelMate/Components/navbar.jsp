@@ -24,22 +24,18 @@
 
 			<script>
 				function scrollToFeatures(event) {
-					event.preventDefault(); // Prevents the default anchor link behavior
+					event.preventDefault();
 
-					// Store scroll behavior information in localStorage
 					localStorage.setItem('scrollToFeatures', 'true');
 
-					// Redirect to index.jsp
 					window.location.href = "index.jsp";
 				}
 
-				function scrollToAbout(event) {
-					event.preventDefault(); // Prevents the default anchor link behavior
+				function scrollToContact(event) {
+					event.preventDefault();
 
-					// Store scroll behavior information in localStorage
-					localStorage.setItem('scrollToAbout', 'true');
+					localStorage.setItem('scrollToContact', 'true');
 
-					// Redirect to index.jsp
 					window.location.href = "index.jsp";
 				}
 			</script>
@@ -52,11 +48,12 @@
 					class="nav-link text-light hover-effect" href="#"
 					onclick="scrollToFeatures(event)">Features</a></li>
 
-				<li class="nav-item"><a
-					class="nav-link text-light hover-effect" href="#"
-					onclick="scrollToAbout(event)">About Us</a></li>
+
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a></li>
+				<li class="nav-item"><a
+					class="nav-link text-light hover-effect" href="#"
+					onclick="scrollToContact(event)">Contact Us</a></li>
 			</ul>
 
 
@@ -72,7 +69,6 @@
 </nav>
 
 <style>
-/* Hover effect for navbar links */
 .hover-effect {
 	transition: color 0.3s ease, background-color 0.3s ease;
 }
@@ -81,19 +77,19 @@
 	color: #97CC04 !important;
 }
 
-/* Styles for Login and Sign Up buttons */
 .login-btn, .signup-btn {
-	background-color: #97CC04; /* Green background */
-	color: #fff; /* White text */
-	border-radius: 5px; /* Rounded corners */
-	padding: 8px 15px; /* Padding for button effect */
-	transition: background-color 0.3s ease; /* Smooth transition */
+	background-color: #97CC04;
+	color: #fff;
+	border-radius: 5px;
+	padding: 8px 15px;
+	transition: background-color 0.3s ease;
 }
 
 .login-btn:hover, .signup-btn:hover {
-	background-color: #76b302; /* Darker green on hover */
-	color: #fff; /* Keep white text */
+	background-color: #76b302;
+	color: #fff;
 }
 </style>
+
 
 

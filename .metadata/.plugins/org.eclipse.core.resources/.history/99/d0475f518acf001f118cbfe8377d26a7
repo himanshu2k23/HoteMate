@@ -24,7 +24,7 @@
 
 			<script>
 				function scrollToFeatures(event) {
-					event.preventDefault();
+					event.preventDefault(); 
 
 					localStorage.setItem('scrollToFeatures', 'true');
 
@@ -32,7 +32,7 @@
 				}
 
 				function scrollToContact(event) {
-					event.preventDefault();
+					event.preventDefault(); 
 
 					localStorage.setItem('scrollToContact', 'true');
 
@@ -48,7 +48,7 @@
 					class="nav-link text-light hover-effect" href="#"
 					onclick="scrollToFeatures(event)">Features</a></li>
 
-
+				
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a></li>
 				<li class="nav-item"><a
@@ -69,6 +69,7 @@
 </nav>
 
 <style>
+/* Hover effect for navbar links */
 .hover-effect {
 	transition: color 0.3s ease, background-color 0.3s ease;
 }
@@ -77,19 +78,19 @@
 	color: #97CC04 !important;
 }
 
+/* Styles for Login and Sign Up buttons */
 .login-btn, .signup-btn {
-	background-color: #97CC04;
-	color: #fff;
-	border-radius: 5px;
-	padding: 8px 15px;
-	transition: background-color 0.3s ease;
+	background-color: #97CC04; /* Green background */
+	color: #fff; /* White text */
+	border-radius: 5px; /* Rounded corners */
+	padding: 8px 15px; /* Padding for button effect */
+	transition: background-color 0.3s ease; /* Smooth transition */
 }
 
 .login-btn:hover, .signup-btn:hover {
-	background-color: #76b302;
-	color: #fff;
+	background-color: #76b302; /* Darker green on hover */
+	color: #fff; /* Keep white text */
 }
 </style>
-
 
 
