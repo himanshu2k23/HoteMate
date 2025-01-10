@@ -26,16 +26,16 @@ body {
 	<%@ include file="/Components/navbar.jsp"%>
 
 	<!-- Banner -->
-	<%@ include file="banner.jsp"%>
+	<%@ include file="/Components/Index/banner.jsp"%>
 
 	<!-- About -->
-	<%@ include file="about.jsp"%>
-	
+	<%@ include file="/Components/Index/about.jsp"%>
+
 	<!-- Featuress -->
-	<%@ include file="features.jsp"%>
-	
+	<%@ include file="/Components/Index/features.jsp"%>
+
 	<!-- Contact -->
-	<%@ include file="contact.jsp"%>
+	<%@ include file="/Components/Index/contact.jsp"%>
 
 	<!-- Footer -->
 	<%@ include file="/Components/footer.jsp"%>
@@ -45,6 +45,31 @@ body {
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	<script>
+		window.onload = function() {
+			if (localStorage.getItem('scrollToFeatures') === 'true') {
+				var featuresElement = document.getElementById("features");
+				if (featuresElement) {
+					window.scrollTo({
+						top : featuresElement.offsetTop - 100,
+						behavior : 'smooth'
+					});
+				}
+				localStorage.removeItem('scrollToFeatures');
+			}
+
+			if (localStorage.getItem('scrollToAbout') === 'true') {
+				var aboutElement = document.getElementById("about");
+				if (aboutElement) {
+					window.scrollTo({
+						top : aboutElement.offsetTop - 100,
+						behavior : 'smooth'
+					});
+				}
+				localStorage.removeItem('scrollToAbout');
+			}
+		};
+	</script>
 
 
 </body>

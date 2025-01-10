@@ -4,11 +4,12 @@
 		<!-- Logo and Brand Name -->
 		<a class="navbar-brand text-light d-flex align-items-center"
 			href="index.jsp"> <img
-			src="https://res.cloudinary.com/dtgiodduq/image/upload/v1729880406/HotelMate/qthjuahg2sm9c2nlrkpp.png"
+			src="http://localhost:8080/HotelMate/Images/HotelmateLogo.png"
 			alt="Logo" width="80" height="60"
 			class="d-inline-block align-text-top"> <span
 			class="nav-link text-light active">HotelMate</span>
 		</a>
+
 
 		<!-- Toggler button for smaller screens -->
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -20,15 +21,44 @@
 
 		<!-- Navbar Links -->
 		<div class="collapse navbar-collapse" id="navbarNav">
+
+			<script>
+				function scrollToFeatures(event) {
+					event.preventDefault(); // Prevents the default anchor link behavior
+
+					// Store scroll behavior information in localStorage
+					localStorage.setItem('scrollToFeatures', 'true');
+
+					// Redirect to index.jsp
+					window.location.href = "index.jsp";
+				}
+
+				function scrollToAbout(event) {
+					event.preventDefault(); // Prevents the default anchor link behavior
+
+					// Store scroll behavior information in localStorage
+					localStorage.setItem('scrollToAbout', 'true');
+
+					// Redirect to index.jsp
+					window.location.href = "index.jsp";
+				}
+			</script>
+
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item"><a
 					class="nav-link text-light active hover-effect" aria-current="page"
 					href="index.jsp">Home</a></li>
 				<li class="nav-item"><a
-					class="nav-link text-light hover-effect" href="#">Features</a></li>
+					class="nav-link text-light hover-effect" href="#"
+					onclick="scrollToFeatures(event)">Features</a></li>
+
+				<li class="nav-item"><a
+					class="nav-link text-light hover-effect" href="#"
+					onclick="scrollToAbout(event)">About Us</a></li>
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a></li>
 			</ul>
+
 
 			<!-- Login and Sign Up links on the right -->
 			<ul class="navbar-nav ms-auto gap-3">
@@ -65,3 +95,5 @@
 	color: #fff; /* Keep white text */
 }
 </style>
+
+
