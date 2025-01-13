@@ -31,12 +31,20 @@
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>com.hotelmate.servlets.SignupServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
     </servlet-mapping>
   
+    <servlet>
+        <servlet-name>HotelDetailServlet</servlet-name>
+        <servlet-class>com.hotelmate.servlets.HotelDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HotelDetailServlet</servlet-name>
+        <url-pattern>/HotelDetailServlet</url-pattern>
+    </servlet-mapping>
+
 
 
 	<servlet-mapping>

@@ -10,7 +10,6 @@
 			class="nav-link text-light active">HotelMate</span>
 		</a>
 
-
 		<!-- Toggler button for smaller screens -->
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -23,20 +22,53 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 
 			<script>
+				// Scroll functionality
 				function scrollToFeatures(event) {
 					event.preventDefault();
-
 					localStorage.setItem('scrollToFeatures', 'true');
-
 					window.location.href = "index.jsp";
 				}
 
 				function scrollToContact(event) {
 					event.preventDefault();
-
 					localStorage.setItem('scrollToContact', 'true');
-
 					window.location.href = "index.jsp";
+				}
+
+				// Logic to dynamically toggle login/logout
+				window.addEventListener('DOMContentLoaded', () => {
+					const navRight = document.querySelector('.navbar-nav.ms-auto');
+					navRight.innerHTML = ''; // Clear the default buttons
+
+					if (localStorage.getItem('HasLoggedIn') === 'true') {
+						// Show dropdown if logged in
+						navRight.innerHTML = `
+							<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-person-circle" style="font-size: 2rem;"></i>
+						</a>
+
+								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+									<li><a class="dropdown-item" href="mybookings.jsp">My Bookings</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+								</ul>
+							</li>
+						`;
+					} else {
+						// Show login and signup if not logged in
+						navRight.innerHTML = `
+							<li class="nav-item"><a class="nav-link login-btn" href="login.jsp">Login</a></li>
+							<li class="nav-item"><a class="nav-link signup-btn" href="signup.jsp">Sign Up</a></li>
+						`;
+					}
+				});
+
+				// Logout function
+				function logout() {
+					localStorage.removeItem('HasLoggedIn');
+					window.location.href = 'index.jsp';
 				}
 			</script>
 
@@ -47,8 +79,6 @@
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="#"
 					onclick="scrollToFeatures(event)">Features</a></li>
-
-
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a></li>
 				<li class="nav-item"><a
@@ -56,14 +86,8 @@
 					onclick="scrollToContact(event)">Contact Us</a></li>
 			</ul>
 
-
-			<!-- Login and Sign Up links on the right -->
-			<ul class="navbar-nav ms-auto gap-3">
-				<li class="nav-item"><a class="nav-link login-btn"
-					href="login.jsp">Login</a></li>
-				<li class="nav-item"><a class="nav-link signup-btn"
-					href="signup.jsp">Sign Up</a></li>
-			</ul>
+			<!-- Login/Sign Up or Account Dropdown -->
+			<ul class="navbar-nav ms-auto gap-3"></ul>
 		</div>
 	</div>
 </nav>
@@ -90,6 +114,3 @@
 	color: #fff;
 }
 </style>
-
-
-

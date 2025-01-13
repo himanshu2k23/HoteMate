@@ -33,6 +33,7 @@ public class HotelDataServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendRedirect("error.jsp");
         }
     }
 
@@ -64,7 +65,7 @@ public class HotelDataServlet extends HttpServlet {
                 hotel.put("state", rs.getString("state"));
                 hotel.put("country", rs.getString("country"));
                 hotel.put("pricePerNight", rs.getDouble("price_per_night"));
-                hotel.put("imageUrl", rs.getString("images").split(",")[0]);
+                hotel.put("imageUrl", rs.getString("images"));
                 hotels.add(hotel);
             }
             return hotels;

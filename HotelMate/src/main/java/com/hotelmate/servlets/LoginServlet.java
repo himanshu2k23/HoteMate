@@ -38,7 +38,12 @@ public class LoginServlet extends HttpServlet {
 			ResultSet resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
-				response.sendRedirect("HotelDataServlet");
+				// If login is successful, inject JavaScript to set localStorage and redirect
+				response.setContentType("text/html");
+				response.getWriter().println("<script>");
+				response.getWriter().println("localStorage.setItem('HasLoggedIn', 'true');");
+				response.getWriter().println("window.location.href = 'HotelDataServlet';");
+				response.getWriter().println("</script>");
 			} else {
 				request.setAttribute("errorMessage", "Incorrect username or password");
 				request.getRequestDispatcher("login.jsp").forward(request, response);

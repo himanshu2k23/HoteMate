@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title> Listings - HotelMate</title>
+<title>Listings - HotelMate</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -32,12 +32,19 @@
 	margin-bottom: 20px;
 }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!localStorage.getItem('HasLoggedIn') || localStorage.getItem('HasLoggedIn') !== 'true') {
+            window.location.href = "login.jsp"; 
+        }
+    });
+</script>
 </head>
 <body>
-	<%@ include file="/Components/navbar.jsp"%>
+	<jsp:include page="/Components/navbar.jsp" />
 
 	<!-- Sidebar Filters -->
-	<div class="container"  style="margin-top:116px;margin-bottom:50px;">
+	<div class="container" style="margin-top: 116px; margin-bottom: 50px;">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="filters">
@@ -63,9 +70,9 @@
 
 				<div class="filters">
 					<h4>Filter by Price</h4>
-					<label for="priceRange">Price Range: ₹ 500- ₹<span
-						id="priceValue">50,000</span></label> <input type="range" class="form-range"
-						min="500" max="50000" step="10" id="priceRange">
+					<label for="priceRange">Price Range: ₹ 500 - ₹<span
+						id="priceValue">50,000</span></label> <input type="range"
+						class="form-range" min="500" max="50000" step="10" id="priceRange">
 				</div>
 			</div>
 
@@ -78,12 +85,47 @@
 					List<Map<String, Object>> hotels = (List<Map<String, Object>>) request.getAttribute("hotels");
 					if (hotels != null) {
 						for (Map<String, Object> hotel : hotels) {
+							String[] images = ((String) hotel.get("imageUrl")).split(",");
 					%>
 					<div class="col hotel-item" data-city="<%=hotel.get("city")%>"
 						data-price="<%=hotel.get("pricePerNight")%>">
 						<div class="card shadow-sm">
-							<img src="<%=hotel.get("imageUrl")%>" class="card-img-top"
-								alt="<%=hotel.get("name")%>">
+							<!-- Carousel for Images -->
+							<div id="carousel<%=hotel.get("hotelId")%>"
+								class="carousel slide" data-bs-ride="carousel">
+								<div class="carousel-inner">
+									<%
+									for (int i = 0; i < images.length; i++) {
+										String image = images[i].trim();
+									%>
+									<div class="carousel-item <%=(i == 0) ? "active" : ""%>">
+										<img src="<%=image%>" class="d-block w-100 card-img-top"
+											alt="<%=hotel.get("name")%>">
+									</div>
+									<%
+									}
+									%>
+								</div>
+								<%
+								if (images.length > 1) {
+								%>
+								<button class="carousel-control-prev" type="button"
+									data-bs-target="#carousel<%=hotel.get("hotelId")%>"
+									data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button"
+									data-bs-target="#carousel<%=hotel.get("hotelId")%>"
+									data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+								<%
+								}
+								%>
+							</div>
+
 							<div class="card-body">
 								<h5 class="card-title"><%=hotel.get("name")%></h5>
 								<p class="listing-info">
@@ -96,7 +138,7 @@
 								<div class="d-flex justify-content-between align-items-center">
 									<span class="price">₹<%=hotel.get("pricePerNight")%> /
 										night
-									</span> <a href="details.jsp?hotelId=<%=hotel.get("hotelId")%>"
+									</span> <a href="HotelDetailServlet?hotelId=<%=hotel.get("hotelId")%>"
 										class="btn btn-primary">View Details</a>
 								</div>
 							</div>
@@ -111,7 +153,7 @@
 		</div>
 	</div>
 
-	<%@ include file="/Components/footer.jsp"%>
+	<jsp:include page="/Components/footer.jsp" />
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -124,18 +166,15 @@
         const priceValue = document.getElementById('priceValue');
         const hotelList = document.getElementById('hotelList');
         
-        // Update the price value display
         priceRange.addEventListener('input', function () {
             priceValue.textContent = priceRange.value;
             filterHotels();
         });
 
-        // City filter event listener
         cityFilterForm.addEventListener('change', function () {
             filterHotels();
         });
 
-        // Function to filter hotels
         function filterHotels() {
             const selectedCities = Array.from(document.querySelectorAll('input[name="cities"]:checked')).map(
                 (checkbox) => checkbox.value
@@ -149,15 +188,11 @@
                 const cityMatch = selectedCities.length === 0 || selectedCities.includes(hotelCity);
                 const priceMatch = hotelPrice <= maxPrice;
 
-                // Show or hide the hotel based on the filters
-                if (cityMatch && priceMatch) {
-                    hotel.style.display = 'block';
-                } else {
-                    hotel.style.display = 'none';
-                }
+                hotel.style.display = cityMatch && priceMatch ? 'block' : 'none';
             });
         }
     });
-</script>
+    </script>
+
 </body>
 </html>

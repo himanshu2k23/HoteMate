@@ -1,0 +1,79 @@
+package com.hotelmate.servlets;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/HotelDetailServlet")
+public class HotelDetailServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/HotelMate?useSSL=false";
+	private static final String DB_USER = "root";
+	private static final String DB_PASSWORD = "password";
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String hotelId = request.getParameter("id");
+		if (hotelId == null || hotelId.isEmpty()) {
+			response.sendRedirect("HotelDataServlet"); 
+			return;
+		}
+
+		// SQL query to retrieve hotel details
+		String query = "SELECT * FROM hotels WHERE id = ?";
+		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD);
+				PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setInt(1, Integer.parseInt(hotelId));
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				// Retrieve data
+				String name = rs.getString("name");
+				String description = rs.getString("description");
+				String location = rs.getString("location");
+				String city = rs.getString("city");
+				String state = rs.getString("state");
+				String country = rs.getString("country");
+				String zipCode = rs.getString("zipCode");
+				double pricePerNight = rs.getDouble("price_per_night");
+				float rating = rs.getFloat("rating");
+				String amenities = rs.getString("amenities");
+				String contactEmail = rs.getString("contact_email");
+				String contactPhone = rs.getString("contact_phone");
+				String images = rs.getString("images");
+
+				// Set attributes for JSP
+				request.setAttribute("name", name);
+				request.setAttribute("description", description);
+				request.setAttribute("location", location);
+				request.setAttribute("city", city);
+				request.setAttribute("state", state);
+				request.setAttribute("country", country);
+				request.setAttribute("zipCode", zipCode);
+				request.setAttribute("pricePerNight", pricePerNight);
+				request.setAttribute("rating", rating);
+				request.setAttribute("amenities", amenities);
+				request.setAttribute("contactEmail", contactEmail);
+				request.setAttribute("contactPhone", contactPhone);
+				request.setAttribute("images", images);
+
+				request.getRequestDispatcher("details.jsp").forward(request, response);
+			} else {
+				response.sendRedirect("HotelDataServlet");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect("error.jsp"); // Redirect to error page in case of an exception
+		}
+	}
+}
