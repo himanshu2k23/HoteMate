@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - HotelMate</title>
-<!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -22,25 +21,24 @@ body {
 	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 }
+
 .login-btn {
-	background-color: #97CC04; /* Green background */
-	color: #fff; /* White text */
+	background-color: #97CC04 !important;
+	color: #fff;
 }
 
 .login-btn:hover {
-	background-color: #76b302; /* Darker green on hover */
+	background-color: #76b302 !important;
 }
 </style>
 </head>
 <body>
 
-	<!-- Navbar -->
 	<%@ include file="/Components/navbar.jsp"%>
 
 	<div class="login-container">
 		<h2 class="text-center mb-4">Login</h2>
 
-		<!-- Display error message if present using Java -->
 		<%
 		String errorMessage = (String) request.getAttribute("errorMessage");
 		if (errorMessage != null && !errorMessage.isEmpty()) {
@@ -50,7 +48,6 @@ body {
 		}
 		%>
 
-		<!-- Login Form -->
 		<form action="LoginServlet" method="post">
 			<div class="mb-3">
 				<label for="email" class="form-label">Email address</label> <input
@@ -68,10 +65,8 @@ body {
 		</form>
 	</div>
 
-	<!-- Footer -->
 	<%@ include file="/Components/footer.jsp"%>
 
-	<!-- Bootstrap JS (Popper.js included) -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 	<script

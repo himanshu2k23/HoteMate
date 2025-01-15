@@ -1,0 +1,89 @@
+package com.hotelmate.servlets;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/signup-handler")
+public class SignupServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String confirmPassword = request.getParameter("confirmPassword");
+
+		String jdbcURL = "jdbc:mysql://localhost:3306/hotelmate";
+		String dbUser = "root";
+		String dbPassword = "password";
+
+		try {
+			if (!password.equals(confirmPassword)) {
+				request.setAttribute("error", "Passwords do not match.");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+				return;
+			}
+
+			if (password.length() < 6) {
+				request.setAttribute("error", "Password must be at least 6 characters long.");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+				return;
+			}
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+
+			String checkEmailQuery = "SELECT COUNT(*) FROM users WHERE email = ?";
+			PreparedStatement checkStatement = connection.prepareStatement(checkEmailQuery);
+			checkStatement.setString(1, email);
+			ResultSet resultSet = checkStatement.executeQuery();
+
+			if (resultSet.next() && resultSet.getInt(1) > 0) {
+				request.setAttribute("error", "Email already in use.");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+				resultSet.close();
+				checkStatement.close();
+				connection.close();
+				return;
+			}
+
+			String insertQuery = "INSERT INTO users (full_name, email, password) VALUES (?, ?, ?)";
+			PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+			insertStatement.setString(1, name);
+			insertStatement.setString(2, email);
+			insertStatement.setString(3, password);
+
+			int result = insertStatement.executeUpdate();
+
+			if (result > 0) {
+				HttpSession session = request.getSession(true);
+				session.setAttribute("userEmail", email);
+				response.sendRedirect("HotelDataServlet");
+			} else {
+				request.setAttribute("error", "An error occurred during sign-up.");
+				request.getRequestDispatcher("signup.jsp").forward(request, response);
+			}
+
+			resultSet.close();
+			checkStatement.close();
+			insertStatement.close();
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			request.setAttribute("error", "An error occurred. Please try again later.");
+			request.getRequestDispatcher("signup.jsp").forward(request, response);
+		}
+	}
+}

@@ -1,0 +1,284 @@
+<%@ page import="jakarta.servlet.http.HttpSession"%>
+<%@ page import="jakarta.servlet.http.HttpServletRequest"%>
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+	<div class="container-fluid">
+		<!-- Logo and Brand Name -->
+		<a class="navbar-brand d-flex align-items-center gap-2"
+			href="index.jsp"> <img
+			src="http://localhost:8080/HotelMate/Images/HotelmateLogo.png"
+			alt="HotelMate Logo" width="60" height="45" class="d-inline-block">
+			<span class="brand-text">HotelMate</span>
+		</a>
+
+		<!-- Toggler button for smaller screens -->
+		<button class="navbar-toggler border-0" type="button"
+			data-bs-toggle="collapse" data-bs-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar Links -->
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item"><a class="nav-link active"
+					aria-current="page" href="index.jsp">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"
+					onclick="scrollToFeatures(event)">Features</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="HotelDataServlet">Hotels</a></li>
+				<li class="nav-item"><a class="nav-link" href="#"
+					onclick="scrollToContact(event)">Contact Us</a></li>
+			</ul>
+
+			<!-- Login/Sign Up or Account Dropdown -->
+			<ul class="navbar-nav ms-auto gap-2">
+				<%
+				if (session.getAttribute("userEmail") != null) {
+				%>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle user-profile" href="#"
+					id="userDropdown" role="button" data-bs-toggle="dropdown"
+					aria-expanded="false"> <i class="bi bi-person-circle"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-menu-end animate slideIn"
+						aria-labelledby="userDropdown">
+						<li><a class="dropdown-item" href="mybookings.jsp">My
+								Bookings</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>
+					</ul></li>
+				<%
+				} else {
+				%>
+				<li class="nav-item"><a class="nav-link login-btn"
+					href="login.jsp">Login</a></li>
+				<li class="nav-item"><a class="nav-link signup-btn"
+					href="signup.jsp">Sign Up</a></li>
+				<%
+				}
+				%>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- Alert Messages -->
+<%
+if (session.getAttribute("SessionSuccessMessage") != null) {
+%>
+<div class="alert alert-success alert-dismissible fade show"
+	role="alert">
+	<i class="bi bi-check-circle-fill me-2"></i>
+	<%=session.getAttribute("SessionSuccessMessage")%>
+	<button type="button" class="btn-close" data-bs-dismiss="alert"
+		aria-label="Close"></button>
+</div>
+<%
+session.removeAttribute("SessionSuccessMessage");
+%>
+<%
+}
+%>
+
+<%
+if (session.getAttribute("SessionErrorMessage") != null) {
+%>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	<i class="bi bi-exclamation-triangle-fill me-2"></i>
+	<%=session.getAttribute("SessionErrorMessage")%>
+	<button type="button" class="btn-close" data-bs-dismiss="alert"
+		aria-label="Close"></button>
+</div>
+<%
+session.removeAttribute("SessionErrorMessage");
+%>
+<%
+}
+%>
+
+<style>
+.navbar {
+	background-color: #343a40;
+	border-radius: 15px;
+	padding: 0.75rem 1.5rem;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	transition: all 0.3s ease;
+	margin: 5px
+}
+
+.navbar-brand {
+	font-weight: 600;
+	font-size: 1.4rem;
+}
+
+.brand-text {
+	background: linear-gradient(45deg, #97CC04, #85B403);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font-weight: 700;
+}
+
+.nav-link {
+	position: relative;
+	padding: 0.5rem 1rem;
+	font-weight: 500;
+	transition: color 0.3s ease;
+}
+
+.nav-link::after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 2px;
+	bottom: 0;
+	left: 50%;
+	background-color: #97CC04;
+	transition: all 0.3s ease;
+	transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+	width: 80%;
+}
+
+.login-btn, .signup-btn {
+	background-color: #97CC04;
+	color: white !important;
+	border-radius: 8px;
+	padding: 0.5rem 1.25rem !important;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+}
+
+.login-btn:hover, .signup-btn:hover {
+	background-color: #85B403;
+	transform: translateY(-1px);
+}
+
+.login-btn {
+	background-color: transparent;
+	border: 2px solid #97CC04;
+}
+
+.login-btn:hover {
+	background-color: #97CC04;
+}
+
+.user-profile i {
+	font-size: 1.75rem;
+	color: #97CC04;
+	transition: color 0.3s ease;
+}
+
+.user-profile:hover i {
+	color: #85B403;
+}
+
+.dropdown-menu {
+	border: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	padding: 0.5rem;
+}
+
+.dropdown-item {
+	border-radius: 6px;
+	padding: 0.5rem 1rem;
+	transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+	background-color: #f8f9fa;
+	transform: translateX(5px);
+}
+
+.alert {
+	margin-top: 90px;
+	margin-bottom: 0;
+	border: none;
+	border-radius: 10px;
+	padding: 1rem;
+	animation: slideInDown 0.5s ease;
+}
+
+@
+keyframes slideInDown {from { transform:translateY(-100%);
+	opacity: 0;
+}
+
+to {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+}
+
+/* Dropdown animation */
+.animate {
+	animation-duration: 0.3s;
+	-webkit-animation-duration: 0.3s;
+	animation-fill-mode: both;
+	-webkit-animation-fill-mode: both;
+}
+
+@
+keyframes slideIn { 0% {
+	transform: translateY(1rem);
+	opacity: 0;
+}
+
+100
+%
+{
+transform
+:
+translateY(
+0rem
+);
+opacity
+:
+1;
+}
+}
+.slideIn {
+	-webkit-animation-name: slideIn;
+	animation-name: slideIn;
+}
+
+@media ( max-width : 991.98px) {
+	.navbar-collapse {
+		background-color: #343a40;
+		padding: 1rem;
+		border-radius: 10px;
+		margin-top: 1rem;
+	}
+	.nav-link::after {
+		display: none;
+	}
+	.login-btn, .signup-btn {
+		text-align: center;
+		margin: 0.5rem 0;
+	}
+}
+</style>
+
+<script>
+	function scrollToFeatures(event) {
+		event.preventDefault();
+		localStorage.setItem('scrollToFeatures', 'true');
+		window.location.href = "index.jsp";
+	}
+
+	function scrollToContact(event) {
+		event.preventDefault();
+		localStorage.setItem('scrollToContact', 'true');
+		window.location.href = "index.jsp";
+	}
+</script>

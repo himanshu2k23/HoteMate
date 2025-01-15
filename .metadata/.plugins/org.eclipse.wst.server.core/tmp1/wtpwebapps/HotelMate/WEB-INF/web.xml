@@ -53,6 +53,15 @@
 		<servlet-name>HotelDetailServlet</servlet-name>
 		<url-pattern>/HotelDetailServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HotelBookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.HotelBookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotelBookingServlet</servlet-name>
+		<url-pattern>/HotelBookingServlet</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet-mapping>

@@ -290,7 +290,7 @@ body {
 						<div class="price">
 							₹<%=String.format("%,.0f", pricePerNight)%></div>
 						<p class="price-label mb-4">per night</p>
-						<a href="" class="btn btn-primary book-button mb-3"> Book Now
+						<a href="HotelBookingServlet?hotelId=<%=hotelDetails.get("hotelId")%>" class="btn btn-primary book-button mb-3"> Book Now
 						</a> <a href="HotelDataServlet"
 							class="btn btn-outline-secondary back-button"> Back to
 							Listings </a>

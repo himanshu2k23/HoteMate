@@ -45,6 +45,7 @@ public class LoginServlet extends HttpServlet {
 				response.getWriter().println("</script>");
 				HttpSession session = request.getSession();
 				session.setAttribute("userEmail", email); 
+				request.getSession().setAttribute("SessionSuccessMessage", "You have successfuly logged in! ");
 				
 			} else {
 				request.setAttribute("errorMessage", "Incorrect username or password");

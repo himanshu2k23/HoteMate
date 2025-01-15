@@ -3,6 +3,9 @@ package com.hotelmate.servlets;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
+
+import com.hotelmate.SessionUtils;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +22,10 @@ public class HotelDetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String hotelIdParam = request.getParameter("hotelId");
-
+		if (!SessionUtils.isValidSession(request)) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
 		if (hotelIdParam == null || hotelIdParam.isEmpty()) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			request.setAttribute("errorMessage", "Missing or invalid hotel ID.");

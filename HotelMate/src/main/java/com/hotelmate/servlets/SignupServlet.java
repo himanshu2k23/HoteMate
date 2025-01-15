@@ -71,6 +71,7 @@ public class SignupServlet extends HttpServlet {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("userEmail", email);
 				response.sendRedirect("HotelDataServlet");
+				request.getSession().setAttribute("SessionSuccessMessage", "Your have successfuly been created! ");
 			} else {
 				request.setAttribute("error", "An error occurred during sign-up.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);
