@@ -83,7 +83,7 @@ public class HotelDetailServlet extends HttpServlet {
 				}
 			}
 		}
-		return Collections.emptyMap(); // Return an empty map if no data found
+		return Collections.emptyMap(); 
 	}
 
 }

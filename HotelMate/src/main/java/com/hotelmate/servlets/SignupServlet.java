@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/signup-handler")
 public class SignupServlet extends HttpServlet {
@@ -67,7 +68,9 @@ public class SignupServlet extends HttpServlet {
 			int result = insertStatement.executeUpdate();
 
 			if (result > 0) {
-				response.sendRedirect("login.jsp");
+				HttpSession session = request.getSession(true);
+				session.setAttribute("userEmail", email);
+				response.sendRedirect("HotelDataServlet");
 			} else {
 				request.setAttribute("error", "An error occurred during sign-up.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);

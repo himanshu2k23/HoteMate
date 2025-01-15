@@ -74,6 +74,20 @@
 		</div>
 	</div>
 </nav>
+<script type="text/javascript">
+function scrollToFeatures(event) {
+	event.preventDefault();
+	localStorage.setItem('scrollToFeatures', 'true');
+	window.location.href = "index.jsp";
+}
+
+function scrollToContact(event) {
+	event.preventDefault();
+	localStorage.setItem('scrollToContact', 'true');
+	window.location.href = "index.jsp";
+}
+
+</script>
 
 <style>
 .hover-effect {

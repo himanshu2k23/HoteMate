@@ -20,23 +20,16 @@ public class HotelDataServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Validate session using the utility method
 		if (!SessionUtils.isValidSession(request)) {
 			response.sendRedirect("login.jsp");
-			System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			return;
 		}
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
-			// Fetch cities and hotels
 			List<String> cities = getCities(conn);
 			List<Map<String, Object>> hotels = getHotels(conn);
-
-			// Set attributes for JSP
 			request.setAttribute("cities", cities);
 			request.setAttribute("hotels", hotels);
-
-			// Forward request to listing.jsp
 			request.getRequestDispatcher("/listing.jsp").forward(request, response);
 		} catch (SQLException e) {
 			e.printStackTrace();
