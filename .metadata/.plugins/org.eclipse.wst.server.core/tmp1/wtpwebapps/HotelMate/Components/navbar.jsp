@@ -1,3 +1,7 @@
+<%@ page import="jakarta.servlet.http.HttpSession"%>
+<%@ page import="jakarta.servlet.http.HttpServletRequest"%>
+
+
 <nav class="navbar navbar-expand-lg"
 	style="background-color: #343a40; border-radius: 15px; padding: 10px 20px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2); margin: 10px; position: fixed; top: 0px; width: calc(100% - 20px); z-index: 1000;">
 	<div class="container-fluid">
@@ -20,58 +24,6 @@
 
 		<!-- Navbar Links -->
 		<div class="collapse navbar-collapse" id="navbarNav">
-
-			<script>
-				// Scroll functionality
-				function scrollToFeatures(event) {
-					event.preventDefault();
-					localStorage.setItem('scrollToFeatures', 'true');
-					window.location.href = "index.jsp";
-				}
-
-				function scrollToContact(event) {
-					event.preventDefault();
-					localStorage.setItem('scrollToContact', 'true');
-					window.location.href = "index.jsp";
-				}
-
-				// Logic to dynamically toggle login/logout
-				window.addEventListener('DOMContentLoaded', () => {
-					const navRight = document.querySelector('.navbar-nav.ms-auto');
-					navRight.innerHTML = ''; // Clear the default buttons
-
-					if (localStorage.getItem('HasLoggedIn') === 'true') {
-						// Show dropdown if logged in
-						navRight.innerHTML = `
-							<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-light" href="#" id="userDropdown" role="button"
-							data-bs-toggle="dropdown" aria-expanded="false">
-							<i class="bi bi-person-circle" style="font-size: 2rem;"></i>
-						</a>
-
-								<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-									<li><a class="dropdown-item" href="mybookings.jsp">My Bookings</a></li>
-									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
-								</ul>
-							</li>
-						`;
-					} else {
-						// Show login and signup if not logged in
-						navRight.innerHTML = `
-							<li class="nav-item"><a class="nav-link login-btn" href="login.jsp">Login</a></li>
-							<li class="nav-item"><a class="nav-link signup-btn" href="signup.jsp">Sign Up</a></li>
-						`;
-					}
-				});
-
-				// Logout function
-				function logout() {
-					localStorage.removeItem('HasLoggedIn');
-					window.location.href = 'index.jsp';
-				}
-			</script>
-
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item"><a
 					class="nav-link text-light active hover-effect" aria-current="page"
@@ -80,14 +32,45 @@
 					class="nav-link text-light hover-effect" href="#"
 					onclick="scrollToFeatures(event)">Features</a></li>
 				<li class="nav-item"><a
-					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a></li>
+					class="nav-link text-light hover-effect" href="HotelDataServlet">Hotels</a>
+				</li>
 				<li class="nav-item"><a
 					class="nav-link text-light hover-effect" href="#"
 					onclick="scrollToContact(event)">Contact Us</a></li>
 			</ul>
 
 			<!-- Login/Sign Up or Account Dropdown -->
-			<ul class="navbar-nav ms-auto gap-3"></ul>
+			<ul class="navbar-nav ms-auto gap-3">
+				<%
+				// Check if the session exists and retrieve user data
+				if (session.getAttribute("userEmail") != null) {
+					String username = (String) session.getAttribute("userEmail"); 
+				%>
+				<li class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle text-light" href="#"
+					id="userDropdown" role="button" data-bs-toggle="dropdown"
+					aria-expanded="false"> <i class="bi bi-person-circle"
+						style="font-size: 2rem;"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-menu-end"
+						aria-labelledby="userDropdown">
+						<li><a class="dropdown-item" href="mybookings.jsp">My
+								Bookings</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="LogoutServlet">Logout</a></li>
+					</ul></li>
+				<%
+				} else {
+				// User is not logged in
+				%>
+				<li class="nav-item"><a class="nav-link login-btn"
+					href="login.jsp">Login</a></li>
+				<li class="nav-item"><a class="nav-link signup-btn"
+					href="signup.jsp">Sign Up</a></li>
+				<%
+				}
+				%>
+			</ul>
 		</div>
 	</div>
 </nav>

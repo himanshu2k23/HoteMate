@@ -32,13 +32,6 @@
 	margin-bottom: 20px;
 }
 </style>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (!localStorage.getItem('HasLoggedIn') || localStorage.getItem('HasLoggedIn') !== 'true') {
-            window.location.href = "login.jsp"; 
-        }
-    });
-</script>
 </head>
 <body>
 	<jsp:include page="/Components/navbar.jsp" />

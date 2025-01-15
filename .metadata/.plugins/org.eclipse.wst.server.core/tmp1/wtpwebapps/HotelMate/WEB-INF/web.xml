@@ -17,6 +17,15 @@
 		<url-pattern>/LoginServlet</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>LogoutServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogoutServlet</servlet-name>
+		<url-pattern>/LogoutServlet</url-pattern>
+	</servlet-mapping>
+
 
 	<servlet>
 		<servlet-name>HotelDataServlet</servlet-name>
@@ -26,25 +35,24 @@
 		<servlet-name>HotelDataServlet</servlet-name>
 		<url-pattern>/HotelDataServlet</url-pattern>
 	</servlet-mapping>
-	
-	 <servlet>
-        <servlet-name>SignupServlet</servlet-name>
-        <servlet-class>com.hotelmate.servlets.SignupServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SignupServlet</servlet-name>
-        <url-pattern>/SignupServlet</url-pattern>
-    </servlet-mapping>
-  
-    <servlet>
-        <servlet-name>HotelDetailServlet</servlet-name>
-        <servlet-class>com.hotelmate.servlets.HotelDetailServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HotelDetailServlet</servlet-name>
-        <url-pattern>/HotelDetailServlet</url-pattern>
-    </servlet-mapping>
 
+	<servlet>
+		<servlet-name>SignupServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.SignupServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignupServlet</servlet-name>
+		<url-pattern>/SignupServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>HotelDetailServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.HotelDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotelDetailServlet</servlet-name>
+		<url-pattern>/HotelDetailServlet</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet-mapping>
