@@ -3,7 +3,6 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
 	<div class="container-fluid">
-		<!-- Logo and Brand Name -->
 		<a class="navbar-brand d-flex align-items-center gap-2"
 			href="index.jsp"> <img
 			src="http://localhost:8080/HotelMate/Images/HotelmateLogo.png"
@@ -11,7 +10,6 @@
 			<span class="brand-text">HotelMate</span>
 		</a>
 
-		<!-- Toggler button for smaller screens -->
 		<button class="navbar-toggler border-0" type="button"
 			data-bs-toggle="collapse" data-bs-target="#navbarNav"
 			aria-controls="navbarNav" aria-expanded="false"
@@ -19,7 +17,6 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<!-- Navbar Links -->
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item"><a class="nav-link "
@@ -32,7 +29,6 @@
 					onclick="scrollToContact(event)">Contact Us</a></li>
 			</ul>
 
-			<!-- Login/Sign Up or Account Dropdown -->
 			<ul class="navbar-nav ms-auto gap-2">
 				<%
 				if (session.getAttribute("userEmail") != null) {
@@ -64,7 +60,6 @@
 	</div>
 </nav>
 
-<!-- Alert Messages -->
 <%
 if (session.getAttribute("SessionSuccessMessage") != null) {
 %>

@@ -28,13 +28,16 @@ public class BookingDataServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Validate session
 		if (!SessionUtils.isValidSession(request)) {
 			response.sendRedirect("login.jsp");
 			return;
 		}
 
+		// Retrieve user email from session
 		String userEmail = (String) request.getSession(false).getAttribute("userEmail");
 
+		// List to store booking data
 		List<Map<String, Object>> bookings = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
@@ -68,8 +71,11 @@ public class BookingDataServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error occurred.");
 			return;
 		}
+
+		// Set the bookings list as a request attribute
 		request.setAttribute("bookings", bookings);
 
+		// Forward the request to mybookings.jsp
 		request.getRequestDispatcher("mybookings.jsp").forward(request, response);
 	}
 }

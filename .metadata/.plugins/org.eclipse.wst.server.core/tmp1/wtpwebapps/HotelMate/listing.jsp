@@ -13,23 +13,135 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
 <style>
-.card-img-top {
-	height: 180px;
-	object-fit: cover;
-}
-
-.listing-info {
-	color: #6c757d;
-}
-
-.price {
-	font-size: 1.2rem;
-	font-weight: bold;
-	color: #198754;
+body {
+	background-color: #f8f9fa;
 }
 
 .filters {
-	margin-bottom: 20px;
+	background: white;
+	padding: 1.5rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0/ 0.05);
+	margin-bottom: 1.5rem;
+}
+
+.filters h4 {
+	color: #343a40;
+	font-size: 1.25rem;
+	margin-bottom: 1rem;
+	font-weight: 600;
+}
+
+.form-check {
+	margin-bottom: 0.5rem;
+}
+
+.form-check-label {
+	color: #507555;
+	font-size: 0.95rem;
+}
+
+.form-range::-webkit-slider-thumb {
+	background: #198754;
+}
+
+.card {
+	border: none;
+	transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+	border-radius: 0.75rem;
+	overflow: hidden;
+}
+
+.card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 4px 6px -1px rgb(0 0 0/ 0.1);
+}
+
+.card-img-top {
+	height: 220px;
+	object-fit: cover;
+}
+
+.carousel-item img {
+	height: 220px;
+	object-fit: cover;
+}
+
+.card-body {
+	padding: 1.25rem;
+}
+
+.card-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: #343a40;
+	margin-bottom: 0.5rem;
+}
+
+.listing-info {
+	font-size: 0.95rem;
+	color: #507555;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.listing-info i {
+	color: #198754;
+}
+
+.card-text {
+	font-size: 0.95rem;
+	color: #507555;
+	margin: 0.75rem 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.price {
+	font-size: 1.35rem;
+	font-weight: 700;
+	color: #198754;
+}
+
+.btn-primary {
+	background-color: #198754;
+	border-color: #198754;
+	padding: 0.5rem 1rem;
+	font-weight: 500;
+	transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+	background-color: #1a4121;
+	border-color: #1a4121;
+	transform: translateY(-1px);
+}
+
+.carousel-control-prev, .carousel-control-next {
+	width: 10%;
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+}
+
+.card:hover .carousel-control-prev, .card:hover .carousel-control-next {
+	opacity: 0.8;
+}
+
+.form-check-input:checked {
+	background-color: #198754;
+	border-color: #198754;
+}
+
+@media ( max-width : 768px) {
+	.filters {
+		margin-bottom: 1rem;
+	}
+	.card-img-top, .carousel-item img {
+		height: 180px;
+	}
 }
 </style>
 </head>

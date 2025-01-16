@@ -130,11 +130,18 @@ body {
 	opacity: 0.8;
 }
 
+.card {
+	border: 1px solid #75a17c;
+}
+
+
+/* Style the form elements with green accents */
 .form-check-input:checked {
 	background-color: #198754;
 	border-color: #198754;
 }
 
+/* Responsive adjustments */
 @media ( max-width : 768px) {
 	.filters {
 		margin-bottom: 1rem;

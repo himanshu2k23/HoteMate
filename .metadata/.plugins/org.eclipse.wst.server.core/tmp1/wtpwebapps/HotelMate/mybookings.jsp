@@ -117,7 +117,6 @@ body {
 </style>
 </head>
 <body>
-	<!-- Navbar -->
 	<%@ include file="/Components/navbar.jsp"%>
 
 	<div class="bookings-container">
@@ -220,7 +219,6 @@ body {
 			%>
 		</div>
 
-		<!-- Footer -->
 		<%@ include file="/Components/footer.jsp"%>
 
 		<script
