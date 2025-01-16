@@ -44,7 +44,7 @@
 				</a>
 					<ul class="dropdown-menu dropdown-menu-end animate slideIn"
 						aria-labelledby="userDropdown">
-						<li><a class="dropdown-item" href="mybookings.jsp">My
+						<li><a class="dropdown-item" href="BookingDataServlet">My
 								Bookings</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item text-danger" href="LogoutServlet">Logout</a></li>

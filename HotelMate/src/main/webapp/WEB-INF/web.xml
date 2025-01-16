@@ -62,6 +62,24 @@
 		<servlet-name>HotelBookingServlet</servlet-name>
 		<url-pattern>/HotelBookingServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BookingDataServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.BookingDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BookingDataServlet</servlet-name>
+		<url-pattern>/BookingDataServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CancelBookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.CancelBookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CancelBookingServlet</servlet-name>
+		<url-pattern>/CancelBookingServlet</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet-mapping>

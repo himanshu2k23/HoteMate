@@ -1,0 +1,81 @@
+package com.hotelmate.servlets;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.hotelmate.SessionUtils;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/booking-data-servlet")
+public class BookingDataServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/HotelMate?useSSL=false";
+	private static final String DB_USER = "root";
+	private static final String DB_PASSWORD = "password";
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Validate session
+		if (!SessionUtils.isValidSession(request)) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
+
+		// Retrieve user email from session
+		String userEmail = (String) request.getSession(false).getAttribute("userEmail");
+
+		// List to store booking data
+		List<Map<String, Object>> bookings = new ArrayList<>();
+
+		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
+			String sql = "SELECT * FROM bookings WHERE user_email = ?";
+			try (PreparedStatement ps = conn.prepareStatement(sql)) {
+				ps.setString(1, userEmail);
+
+				try (ResultSet rs = ps.executeQuery()) {
+					while (rs.next()) {
+						Map<String, Object> booking = new HashMap<>();
+						booking.put("id", rs.getInt("booking_id"));
+						booking.put("checkIn", rs.getDate("check_in"));
+						booking.put("checkOut", rs.getDate("check_out"));
+						booking.put("adults", rs.getInt("adults"));
+						booking.put("children", rs.getInt("children"));
+						booking.put("firstName", rs.getString("first_name"));
+						booking.put("lastName", rs.getString("last_name"));
+						booking.put("email", rs.getString("email"));
+						booking.put("phone", rs.getString("phone"));
+						booking.put("specialRequests", rs.getString("special_requests"));
+						booking.put("hotelId", rs.getInt("hotel_id"));
+						booking.put("additionalServices", rs.getString("additional_services"));
+						booking.put("totalAmount", rs.getBigDecimal("total_amount"));
+						booking.put("bookingDate", rs.getDate("booking_date"));
+						bookings.add(booking);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error occurred.");
+			return;
+		}
+
+		// Set the bookings list as a request attribute
+		request.setAttribute("bookings", bookings);
+
+		// Forward the request to mybookings.jsp
+		request.getRequestDispatcher("mybookings.jsp").forward(request, response);
+	}
+}

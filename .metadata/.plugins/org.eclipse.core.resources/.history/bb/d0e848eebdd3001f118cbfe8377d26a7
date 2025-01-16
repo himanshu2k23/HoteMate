@@ -1,0 +1,33 @@
+<%@ page import="java.util.*"%>
+
+<%
+Map<String, Object> hotelDetails = (Map<String, Object>) request.getAttribute("hotelDetails");
+if (hotelDetails != null) {
+%>
+
+%>
+<h1><%=hotelDetails.get("name")%></h1>
+<p><%=hotelDetails.get("description")%></p>
+<p>
+	Location:
+	<%=hotelDetails.get("location")%>,
+	<%=hotelDetails.get("city")%>,
+	<%=hotelDetails.get("state")%></p>
+<p>
+	Price Per Night: $<%=hotelDetails.get("pricePerNight")%></p>
+<p>
+	Rating:
+	<%=hotelDetails.get("rating")%>
+	stars
+</p>
+<p>
+	Amenities:
+	<%=hotelDetails.get("amenities")%></p>
+<img src="<%=hotelDetails.get("imageUrl")%>" alt="Hotel Image">
+<%
+} else {
+%>
+<p>No hotel details found.</p>
+<%
+}
+%>

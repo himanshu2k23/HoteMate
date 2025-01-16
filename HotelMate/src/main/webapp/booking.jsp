@@ -265,6 +265,14 @@ body {
 								for="earlyCheckin">Early Check-in (₹1500 if available)</label>
 						</div>
 					</div>
+					<input type="hidden" name="hotelId"
+						value="<%=request.getAttribute("hotelId")%>"> <input
+						type="hidden" name="totalAmount" id="hiddenTotalAmount"> <input
+						type="hidden" name="hasBreakfast" id="hiddenBreakfast"
+						value="false"> <input type="hidden"
+						name="hasAirportTransfer" id="hiddenAirportTransfer" value="false">
+					<input type="hidden" name="hasEarlyCheckin" id="hiddenEarlyCheckin"
+						value="false">
 				</form>
 			</div>
 
@@ -373,6 +381,10 @@ body {
 	    document.getElementById("taxes").textContent = formatCurrency(0);
 	    document.getElementById("additionalServices").textContent = formatCurrency(0);
 	    document.getElementById("totalAmount").textContent = formatCurrency(0);
+	    document.getElementById("hiddenTotalAmount").value = total;
+	    document.getElementById("hiddenBreakfast").value = document.getElementById("breakfast").checked;
+	    document.getElementById("hiddenAirportTransfer").value = document.getElementById("airport").checked;
+	    document.getElementById("hiddenEarlyCheckin").value = document.getElementById("earlyCheckin").checked;
 	});
 </script>
 
