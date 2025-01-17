@@ -1,0 +1,18 @@
+package com.hotelmate.admin.servlets;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+import java.io.IOException;
+
+@WebServlet("/admin/dashboard")
+public class AdminDashboardServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // Add dashboard data to request attributes
+        request.setAttribute("totalUsers", getUserCount());
+        request.setAttribute("recentActivities", getRecentActivities());
+        request.getRequestDispatcher("/WEB-INF/admin/dashboard.jsp").forward(request, response);
+    }
+}

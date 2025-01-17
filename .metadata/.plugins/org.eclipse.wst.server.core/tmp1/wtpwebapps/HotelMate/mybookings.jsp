@@ -184,6 +184,15 @@ body {
 						<%
 						}
 						%>
+						<%
+						if (booking.get("additionalServices") != null && !booking.get("additionalServices").toString().isEmpty()) {
+						%>
+						<div class="booking-info">
+							<i class="bi bi-chat-left-text"></i> <span><%=booking.get("additionalServices")%></span>
+						</div>
+						<%
+						}
+						%>
 						<div class="mt-3 pt-3 border-top">
 							<div class="booking-amount">
 								<i class="bi bi-currency-rupee"></i><%=booking.get("totalAmount")%>

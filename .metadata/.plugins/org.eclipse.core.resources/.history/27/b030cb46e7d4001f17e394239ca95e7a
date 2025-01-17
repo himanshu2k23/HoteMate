@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+	version="5.0">
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+	<servlet>
+		<servlet-name>LoginServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginServlet</servlet-name>
+		<url-pattern>/LoginServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LogoutServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LogoutServlet</servlet-name>
+		<url-pattern>/LogoutServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>HotelDataServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.HotelDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotelDataServlet</servlet-name>
+		<url-pattern>/HotelDataServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SignupServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.SignupServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignupServlet</servlet-name>
+		<url-pattern>/SignupServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>HotelDetailServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.HotelDetailServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotelDetailServlet</servlet-name>
+		<url-pattern>/HotelDetailServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>HotelBookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.HotelBookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HotelBookingServlet</servlet-name>
+		<url-pattern>/HotelBookingServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BookingDataServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.BookingDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BookingDataServlet</servlet-name>
+		<url-pattern>/BookingDataServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CancelBookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.CancelBookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CancelBookingServlet</servlet-name>
+		<url-pattern>/CancelBookingServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProcessPaymentServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.ProcessPaymentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProcessPaymentServlet</servlet-name>
+		<url-pattern>/ProcessPaymentServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.BookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BookingServlet</servlet-name>
+		<url-pattern>/BookingServlet</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/Images/*</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>com.hotelmate.listeners.CleanupListener</listener-class>
+	</listener>
+
+
+</web-app>

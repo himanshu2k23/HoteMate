@@ -75,10 +75,10 @@ public class BookingServlet extends HttpServlet {
 	private String buildAdditionalServices(HttpServletRequest request) {
 		StringBuilder services = new StringBuilder();
 		if ("true".equals(request.getParameter("hasBreakfast"))) {
-			services.append("Breakfast ");
+			services.append("Breakfast, ");
 		}
 		if ("true".equals(request.getParameter("hasAirportTransfer"))) {
-			services.append("Airport Transfer ");
+			services.append("Airport Transfer, ");
 		}
 		if ("true".equals(request.getParameter("hasEarlyCheckin"))) {
 			services.append("Early Check-in ");

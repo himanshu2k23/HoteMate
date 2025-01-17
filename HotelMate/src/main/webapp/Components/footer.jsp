@@ -22,6 +22,6 @@
 
 <div class="footer" id="footer">
 	<p class="text-center text-secondary">
-		© <a href="admin.jsp">HotelMate</a> 2024 - All rights reserved
+		© <a href="admin/login">HotelMate</a> 2024 - All rights reserved
 	</p>
 </div>

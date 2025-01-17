@@ -1,0 +1,88 @@
+package com.hotelmate.servlets;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.*;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class BookingServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/HotelMate?useSSL=false";
+	private static final String DB_USER = "root";
+	private static final String DB_PASSWORD = "password";
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(false);
+		String userEmail = (String) session.getAttribute("userEmail");
+
+		if (userEmail == null) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is not logged in.");
+			return;
+		}
+
+		String checkIn = request.getParameter("checkIn");
+		String checkOut = request.getParameter("checkOut");
+		int adults = Integer.parseInt(request.getParameter("adults"));
+		int children = Integer.parseInt(request.getParameter("children"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String specialRequests = request.getParameter("specialRequests");
+		int hotelId = Integer.parseInt(request.getParameter("hotelId"));
+		String additionalServices = buildAdditionalServices(request);
+		double totalAmount = Double.parseDouble(request.getParameter("totalAmount"));
+		String bookingDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+		// Database connection and booking insertion
+		try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+			String insertQuery = "INSERT INTO bookings (check_in, check_out, adults, children, first_name, last_name, email, phone, special_requests, hotel_id, additional_services, total_amount, user_email, booking_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			try (PreparedStatement stmt = conn.prepareStatement(insertQuery)) {
+				stmt.setDate(1, Date.valueOf(checkIn));
+				stmt.setDate(2, Date.valueOf(checkOut));
+				stmt.setInt(3, adults);
+				stmt.setInt(4, children);
+				stmt.setString(5, firstName);
+				stmt.setString(6, lastName);
+				stmt.setString(7, email);
+				stmt.setString(8, phone);
+				stmt.setString(9, specialRequests);
+				stmt.setInt(10, hotelId);
+				stmt.setString(11, additionalServices);
+				stmt.setDouble(12, totalAmount);
+				stmt.setString(13, userEmail);
+				stmt.setTimestamp(14, Timestamp.valueOf(bookingDate));
+				int rowsInserted = stmt.executeUpdate();
+
+				if (rowsInserted > 0) {
+					request.getSession().setAttribute("SessionSuccessMessage", "Your booking was successful! ");
+					response.sendRedirect("BookingDataServlet");
+				} else {
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to save booking.");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error: " + e.getMessage());
+		}
+	}
+
+	private String buildAdditionalServices(HttpServletRequest request) {
+		StringBuilder services = new StringBuilder();
+		if ("true".equals(request.getParameter("hasBreakfast"))) {
+			services.append("Breakfast ");
+		}
+		if ("true".equals(request.getParameter("hasAirportTransfer"))) {
+			services.append("Airport Transfer ");
+		}
+		if ("true".equals(request.getParameter("hasEarlyCheckin"))) {
+			services.append("Early Check-in ");
+		}
+		return services.toString().trim();
+	}
+}

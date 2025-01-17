@@ -387,6 +387,26 @@ body {
 	    document.getElementById("hiddenAirportTransfer").value = document.getElementById("airport").checked;
 	    document.getElementById("hiddenEarlyCheckin").value = document.getElementById("earlyCheckin").checked;
 	});
+	
+	document.addEventListener('DOMContentLoaded', function() {
+	    const breakfastCheckbox = document.getElementById('breakfast');
+	    const airportCheckbox = document.getElementById('airport');
+	    const earlyCheckinCheckbox = document.getElementById('earlyCheckin');
+	    const hiddenBreakfast = document.getElementById('hiddenBreakfast');
+	    const hiddenAirportTransfer = document.getElementById('hiddenAirportTransfer');
+	    const hiddenEarlyCheckin = document.getElementById('hiddenEarlyCheckin');
+	    function updateHiddenFields() {
+	        hiddenBreakfast.value = breakfastCheckbox.checked ? 'true' : 'false';
+	        hiddenAirportTransfer.value = airportCheckbox.checked ? 'true' : 'false';
+	        hiddenEarlyCheckin.value = earlyCheckinCheckbox.checked ? 'true' : 'false';
+
+	    }
+	    breakfastCheckbox.addEventListener('change', updateHiddenFields);
+	    airportCheckbox.addEventListener('change', updateHiddenFields);
+	    earlyCheckinCheckbox.addEventListener('change', updateHiddenFields);
+	    updateHiddenFields();
+	});
+
 </script>
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -431,7 +451,7 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
                 bookingData.append('orderId', data.orderId);
                 
                 console.log('Sending booking data:', Object.fromEntries(bookingData));
-
+				
                 const bookingUrlEncoded = new URLSearchParams(bookingData).toString();
                 
                 fetch('BookingServlet', {
