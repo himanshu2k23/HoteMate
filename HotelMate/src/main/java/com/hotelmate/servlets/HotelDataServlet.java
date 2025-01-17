@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.hotelmate.SessionUtils;
 
-@WebServlet("/hotel-data-handler")
 public class HotelDataServlet extends HttpServlet {
 	private static final long serialVersionUID = 2L;
 

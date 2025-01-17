@@ -1,0 +1,69 @@
+package com.hotelmate.servlets;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/booking-servlet")
+public class BookingServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        // Set response type to plain text for debugging
+        response.setContentType("text/plain");
+        PrintWriter out = response.getWriter();
+        
+        out.println("=== Booking Data Received ===\n");
+        
+        // Booking dates and guest count
+        out.println("Check-in Date: " + request.getParameter("checkIn"));
+        out.println("Check-out Date: " + request.getParameter("checkOut"));
+        out.println("Number of Adults: " + request.getParameter("adults"));
+        out.println("Number of Children: " + request.getParameter("children"));
+        
+        // Guest information
+        out.println("\n=== Guest Information ===");
+        out.println("First Name: " + request.getParameter("firstName"));
+        out.println("Last Name: " + request.getParameter("lastName"));
+        out.println("Email: " + request.getParameter("email"));
+        out.println("Phone: " + request.getParameter("phone"));
+        out.println("Special Requests: " + request.getParameter("specialRequests"));
+        
+        // Additional services
+        out.println("\n=== Additional Services ===");
+        out.println("Breakfast: " + request.getParameter("hasBreakfast"));
+        out.println("Airport Transfer: " + request.getParameter("hasAirportTransfer"));
+        out.println("Early Check-in: " + request.getParameter("hasEarlyCheckin"));
+        
+        // Payment and booking details
+        out.println("\n=== Payment Information ===");
+        out.println("Hotel ID: " + request.getParameter("hotelId"));
+        out.println("Total Amount: " + request.getParameter("totalAmount"));
+        out.println("Payment ID: " + request.getParameter("paymentId"));
+        out.println("Order ID: " + request.getParameter("orderId"));
+        
+        // Later, you can add code here to:
+        // 1. Validate the data
+        // 2. Create a Booking object
+        // 3. Save to database
+        // 4. Send confirmation email
+        // 5. Redirect to booking confirmation page
+        
+        // For now, we'll just print a success message
+        out.println("\n=== Status ===");
+        out.println("Booking data received successfully!");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        // Redirect GET requests to the homepage or show an error
+        response.sendRedirect("index.jsp");
+    }
+}

@@ -54,6 +54,7 @@ public class HotelBookingServlet extends HttpServlet {
 				request.setAttribute("country", resultSet.getString("country"));
 				request.setAttribute("pricePerNight", resultSet.getBigDecimal("price_per_night"));
 				request.setAttribute("imageUrl", resultSet.getString("images").split(",")[0]);
+				request.setAttribute("hotelId", resultSet.getString("hotel_id"));
 
 				RequestDispatcher dispatcher = request.getRequestDispatcher("booking.jsp");
 				dispatcher.forward(request, response);

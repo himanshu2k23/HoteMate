@@ -80,6 +80,24 @@
 		<servlet-name>CancelBookingServlet</servlet-name>
 		<url-pattern>/CancelBookingServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ProcessPaymentServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.ProcessPaymentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProcessPaymentServlet</servlet-name>
+		<url-pattern>/ProcessPaymentServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BookingServlet</servlet-name>
+		<servlet-class>com.hotelmate.servlets.BookingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>BookingServlet</servlet-name>
+		<url-pattern>/BookingServlet</url-pattern>
+	</servlet-mapping>
 
 
 	<servlet-mapping>

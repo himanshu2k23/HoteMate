@@ -13,12 +13,10 @@ import java.util.Map;
 import com.hotelmate.SessionUtils;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/booking-data-servlet")
 public class BookingDataServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/HotelMate?useSSL=false";
@@ -38,7 +36,7 @@ public class BookingDataServlet extends HttpServlet {
 		List<Map<String, Object>> bookings = new ArrayList<>();
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
-			String sql = "SELECT * FROM bookings WHERE user_email = ?";
+			String sql = "SELECT * FROM bookings WHERE user_email = ? ";
 			try (PreparedStatement ps = conn.prepareStatement(sql)) {
 				ps.setString(1, userEmail);
 

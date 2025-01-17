@@ -118,3 +118,6 @@
 0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:20:43 +0530] "GET /HotelMate/HotelDataServlet HTTP/1.1" 200 22259
 0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:21:46 +0530] "GET /HotelMate/HotelDataServlet HTTP/1.1" 200 21937
 0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:22:35 +0530] "GET /HotelMate/HotelDataServlet HTTP/1.1" 200 21894
+0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:24:41 +0530] "GET /HotelMate/HotelDetailServlet?hotelId=49 HTTP/1.1" 200 12138
+0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:24:45 +0530] "GET /HotelMate/HotelBookingServlet?hotelId=49 HTTP/1.1" 200 17001
+0:0:0:0:0:0:0:1 - - [16/Jan/2025:12:24:50 +0530] "GET /HotelMate/BookingDataServlet HTTP/1.1" 200 7765

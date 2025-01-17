@@ -146,14 +146,12 @@ body {
 </style>
 </head>
 <body>
-	<!-- Navbar -->
 	<%@ include file="/Components/navbar.jsp"%>
 
 	<div class="container booking-container">
 
 		<h2 class="text-center mb-4">Complete Your Booking</h2>
 
-		<!-- Hotel Preview Section -->
 		<div class="hotel-preview">
 			<div class="row">
 				<div class="col-md-4">
@@ -180,7 +178,6 @@ body {
 			<div class="col-lg-8">
 				<form class="booking-form" id="bookingForm"
 					action="ProcessPaymentServlet" method="POST">
-					<!-- Room Selection -->
 					<div class="form-section">
 						<h4 class="section-title">Room Selection</h4>
 						<div class="row">
@@ -217,7 +214,6 @@ body {
 						</div>
 					</div>
 
-					<!-- Guest Information -->
 					<div class="form-section">
 						<h4 class="section-title">Guest Information</h4>
 						<div class="row">
@@ -236,7 +232,11 @@ body {
 						</div>
 						<div class="mb-3">
 							<label class="form-label required-field">Phone Number</label> <input
-								type="tel" class="form-control" name="phone" required>
+								type="tel" class="form-control" name="phone"
+								placeholder="+91 Phone Number" aria-label="Phone Number"
+								aria-describedby="phone-addon" pattern="^\+91[6-9][0-9]{9}$"
+								title="Enter a valid Indian phone number starting with +91 and followed by 10 digits starting with 6, 7, 8, or 9."
+								required>
 						</div>
 						<div class="mb-3">
 							<label class="form-label">Special Requests</label>
@@ -246,7 +246,6 @@ body {
 						</div>
 					</div>
 
-					<!-- Additional Services -->
 					<div class="form-section">
 						<h4 class="section-title">Additional Services</h4>
 						<div class="form-check mb-2">
@@ -276,7 +275,6 @@ body {
 				</form>
 			</div>
 
-			<!-- Booking Summary -->
 			<div class="col-lg-4">
 				<div class="booking-form">
 					<h4 class="section-title">Booking Summary</h4>
@@ -319,6 +317,8 @@ body {
 	const today = new Date().toISOString().split('T')[0];
     document.getElementById("checkIn").value = today;
     document.getElementById("checkOut").value = today;
+    document.getElementById('checkIn').setAttribute('min', today);
+    document.getElementById('checkOut').setAttribute('min', today);
 	const pricePerNight = <%=formattedPrice%>;
 
 	function formatCurrency(amount) {
@@ -360,6 +360,7 @@ body {
 	    document.getElementById("taxes").textContent = formatCurrency(taxes);
 	    document.getElementById("additionalServices").textContent = formatCurrency(serviceCost);
 	    document.getElementById("totalAmount").textContent = formatCurrency(total);
+	    document.getElementById("hiddenTotalAmount").value = total;
 	}
 
 	function setupEventListeners() {
@@ -387,10 +388,108 @@ body {
 	    document.getElementById("hiddenEarlyCheckin").value = document.getElementById("earlyCheckin").checked;
 	});
 </script>
+	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+	<script>
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Form submission started');
 
+    const formData = new FormData(this);
+    const urlEncodedData = new URLSearchParams(formData).toString();
+    console.log('Initial form data:', Object.fromEntries(formData));
 
-	<!-- Footer -->
+    fetch('ProcessPaymentServlet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlEncodedData
+    })
+    .then(response => {
+        console.log('ProcessPaymentServlet response status:', response.status);
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Payment initialization data:', data);
+        
+        const options = {
+            key: data.keyId,
+            amount: data.amount,
+            currency: data.currency,
+            name: "HotelMate",
+            description: "Hotel Booking Payment",
+            order_id: data.orderId,
+            handler: function (response) {
+                console.log('Razorpay payment successful:', response);
+                
+                const bookingData = new FormData(document.getElementById('bookingForm'));
+                bookingData.append('paymentId', response.razorpay_payment_id);
+                bookingData.append('orderId', data.orderId);
+                
+                console.log('Sending booking data:', Object.fromEntries(bookingData));
+
+                const bookingUrlEncoded = new URLSearchParams(bookingData).toString();
+                
+                fetch('BookingServlet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: bookingUrlEncoded
+                })
+                .then(response => {
+                    console.log('BookingServlet response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Error saving booking: ' + response.status);
+                    }
+                    return response.text();
+                })
+                .then(bookingResponse => {
+                    console.log('Booking success response:', bookingResponse);
+                    window.location.href = 'BookingDataServlet';
+                    
+                })
+                .catch(error => {
+                    console.error('Booking error:', error);
+                    alert('Payment was successful but there was an error saving your booking. Please contact support.\nError: ' + error.message);
+                });
+            },
+            prefill: {
+                name: document.querySelector('[name="firstName"]').value + ' ' + 
+                     document.querySelector('[name="lastName"]').value,
+                email: document.querySelector('[name="email"]').value,
+                contact: document.querySelector('[name="phone"]').value
+            },
+            theme: {
+                color: "#3399cc"
+            }
+        };
+
+        console.log('Initializing Razorpay with options:', {...options, handler: '[Function]'});
+        
+        const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function (response){
+            console.error('Payment failed:', response);
+            alert('Payment failed: ' + response.error.description);
+        });
+        rzp.open();
+    })
+    .catch(error => {
+        console.error('Payment initialization error:', error);
+        alert('An error occurred while processing payment: ' + error.message);
+    });
+});
+
+document.addEventListener('payment.failed', function(response) {
+    console.error('Payment failed event:', response);
+    alert('Payment failed. Please try again.');
+});
+</script>
+
 	<%@ include file="/Components/footer.jsp"%>
 
 	<script

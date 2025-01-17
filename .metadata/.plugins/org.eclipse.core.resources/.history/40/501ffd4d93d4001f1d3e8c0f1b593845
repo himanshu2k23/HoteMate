@@ -1,0 +1,55 @@
+package com.hotelmate.servlets;
+
+//ProcessPaymentServlet.java
+import com.razorpay.*;
+import org.json.JSONObject; // Make sure you have json-20231013.jar or similar version
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/process-payment-servlet")
+public class ProcessPaymentServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final String KEY_ID = "YOUR_KEY_ID";
+	private static final String KEY_SECRET = "YOUR_KEY_SECRET";
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			// Get the total amount from the form
+			String totalAmountStr = request.getParameter("totalAmount");
+			double totalAmount = Double.parseDouble(totalAmountStr);
+
+			// Convert to paise (Razorpay expects amount in smallest currency unit)
+			int amountInPaise = (int) (totalAmount * 100);
+
+			// Initialize RazorPay client
+			RazorpayClient razorpay = new RazorpayClient(KEY_ID, KEY_SECRET);
+
+			// Create payment order
+			JSONObject orderRequest = new JSONObject();
+			orderRequest.put("amount", Integer.valueOf(amountInPaise));
+			orderRequest.put("currency", "INR");
+			orderRequest.put("receipt", "order_" + System.currentTimeMillis());
+
+			Order order = razorpay.orders.create(orderRequest);
+
+			// Send order details back to client
+			JSONObject responseData = new JSONObject();
+			responseData.put("orderId", String.valueOf(order.get("id"))); // Convert to String
+			responseData.put("amount", Integer.valueOf(amountInPaise));
+			responseData.put("currency", "INR");
+			responseData.put("keyId", String.valueOf(KEY_ID)); // Convert to String
+
+			response.setContentType("application/json");
+			response.getWriter().write(responseData.toString());
+
+		} catch (RazorpayException e) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Error: " + e.getMessage());
+		}
+	}
+}

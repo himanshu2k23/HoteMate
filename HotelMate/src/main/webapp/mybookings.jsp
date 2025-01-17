@@ -27,7 +27,7 @@ body {
 	margin-top: 80px;
 }
 
-.booking-card {
+.bookings-container .booking-card {
 	background: white;
 	border-radius: 15px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -35,58 +35,58 @@ body {
 	margin-bottom: 20px;
 }
 
-.booking-card:not(.expired):hover {
+.bookings-container .booking-card:not(.expired):hover {
 	transform: translateY(-5px);
 }
 
-.booking-card.expired {
+.bookings-container .booking-card.expired {
 	background: #f8f9fa;
 	opacity: 0.7;
 }
 
-.booking-card.expired .booking-header {
+.bookings-container .booking-card.expired .booking-header {
 	background: #e9ecef;
 }
 
-.booking-card.expired .booking-amount {
+.bookings-container .booking-card.expired .booking-amount {
 	color: #6c757d;
 }
 
-.booking-header {
+.bookings-container .booking-header {
 	background: #f8f9fa;
 	padding: 1rem;
 	border-radius: 15px 15px 0 0;
 	border-bottom: 1px solid #dee2e6;
 }
 
-.booking-body {
+.bookings-container .booking-body {
 	padding: 1.5rem;
 }
 
-.booking-info {
+.bookings-container .booking-info {
 	display: flex;
 	align-items: center;
 	margin-bottom: 0.5rem;
 	color: #6c757d;
 }
 
-.booking-info i {
+.bookings-container .booking-info i {
 	margin-right: 0.5rem;
 	width: 20px;
 }
 
-.booking-amount {
+.bookings-container .booking-amount {
 	font-size: 1.25rem;
 	color: #198754;
 	font-weight: 600;
 }
 
-.booking-date {
+.bookings-container .booking-date {
 	font-size: 0.875rem;
 	color: #6c757d;
 }
 
-.expired-badge {
+.bookings-container .expired-badge {
 	background: #dc3545;
 	color: white;
 	padding: 0.25rem 0.5rem;
@@ -95,13 +95,13 @@ body {
 	margin-left: 0.5rem;
 }
 
-.booking-actions {
+.bookings-container .booking-actions {
 	margin-top: 1rem;
 	padding-top: 1rem;
 	border-top: 1px solid #dee2e6;
 }
 
-.no-bookings {
+.bookings-container .no-bookings {
 	text-align: center;
 	padding: 3rem;
 	background: white;
@@ -109,12 +109,13 @@ body {
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.no-bookings i {
+.bookings-container .no-bookings i {
 	font-size: 3rem;
 	color: #6c757d;
 	margin-bottom: 1rem;
 }
 </style>
+
 </head>
 <body>
 	<%@ include file="/Components/navbar.jsp"%>
@@ -128,6 +129,7 @@ body {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 		if (bookings != null && !bookings.isEmpty()) {
+			Collections.reverse(bookings);
 		%>
 		<div class="row">
 			<%
@@ -135,7 +137,7 @@ body {
 				LocalDate checkOutDate = LocalDate.parse(booking.get("checkOut").toString(), formatter);
 				boolean isExpired = checkOutDate.isBefore(today);
 			%>
-			<div class="col-md-6 col-lg-4">
+			<div class="">
 				<div class="booking-card <%=isExpired ? "expired" : ""%>">
 					<div class="booking-header">
 						<div class="d-flex justify-content-between align-items-center">
@@ -225,5 +227,6 @@ body {
 			src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+	</div>
 </body>
 </html>

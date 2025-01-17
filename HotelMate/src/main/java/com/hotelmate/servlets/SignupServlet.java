@@ -7,13 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/signup-handler")
 public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +69,7 @@ public class SignupServlet extends HttpServlet {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("userEmail", email);
 				response.sendRedirect("HotelDataServlet");
-				request.getSession().setAttribute("SessionSuccessMessage", "Your have successfuly been created! ");
+				request.getSession().setAttribute("SessionSuccessMessage", "Your account have successfuly been created! ");
 			} else {
 				request.setAttribute("error", "An error occurred during sign-up.");
 				request.getRequestDispatcher("signup.jsp").forward(request, response);

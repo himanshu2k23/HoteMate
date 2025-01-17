@@ -6,14 +6,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
-@WebServlet("/login-handler")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,9 +41,9 @@ public class LoginServlet extends HttpServlet {
 				response.getWriter().println("window.location.href = 'HotelDataServlet';");
 				response.getWriter().println("</script>");
 				HttpSession session = request.getSession();
-				session.setAttribute("userEmail", email); 
+				session.setAttribute("userEmail", email);
 				request.getSession().setAttribute("SessionSuccessMessage", "You have successfuly logged in! ");
-				
+
 			} else {
 				request.setAttribute("errorMessage", "Incorrect username or password");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
