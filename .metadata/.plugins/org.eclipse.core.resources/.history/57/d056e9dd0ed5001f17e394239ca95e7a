@@ -116,15 +116,7 @@
 								data-first_name="<%=booking.get("first_name")%>"
 								data-last_name="<%=booking.get("last_name")%>"
 								data-email="<%=booking.get("email")%>"
-								data-phone="<%=booking.get("phone")%>"
-								data-check_in="<%=booking.get("check_in")%>"
-								data-check_out="<%=booking.get("check_out")%>"
-								data-adults="<%=booking.get("adults")%>"
-								data-children="<%=booking.get("children")%>"
-								data-special_requests="<%=booking.get("special_requests")%>"
-								data-additional_services="<%=booking.get("additional_services")%>"
-								data-total_amount="<%=booking.get("total_amount")%>">
-								Modify</button>
+								data-phone="<%=booking.get("phone")%>">Modify</button>
 						</td>
 					</tr>
 					<%

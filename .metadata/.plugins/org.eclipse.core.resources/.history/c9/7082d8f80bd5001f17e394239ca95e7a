@@ -64,34 +64,29 @@ public class BookingManagementServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("action");
-		String redirectUrl = request.getContextPath() + "/admin/bookings";
+		String redirectUrl = "/HotelMate/admin/bookings";
 
 		try (Connection connection = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASSWORD)) {
 			if ("delete".equalsIgnoreCase(action)) {
-				int bookingId = Integer.parseInt(request.getParameter("booking_id"));
+				int bookingId = Integer.parseInt(request.getParameter("id"));
 				deleteBooking(connection, bookingId);
 				response.sendRedirect(redirectUrl + "?successMsg=Booking deleted successfully.");
 			} else if ("update".equalsIgnoreCase(action)) {
-				int bookingId = Integer.parseInt(request.getParameter("booking_id"));
+				int bookingId = Integer.parseInt(request.getParameter("id"));
 				String firstName = request.getParameter("first_name");
 				String lastName = request.getParameter("last_name");
 				String email = request.getParameter("email");
 				String phone = request.getParameter("phone");
-				String checkIn = request.getParameter("check_in");
-				String checkOut = request.getParameter("check_out");
-				int adults = Integer.parseInt(request.getParameter("adults"));
-				int children = Integer.parseInt(request.getParameter("children"));
 				String specialRequests = request.getParameter("special_requests");
 				String additionalServices = request.getParameter("additional_services");
 				double totalAmount = Double.parseDouble(request.getParameter("total_amount"));
-
-				updateBooking(connection, bookingId, firstName, lastName, email, phone, checkIn, checkOut, adults,
-						children, specialRequests, additionalServices, totalAmount);
+				updateBooking(connection, bookingId, firstName, lastName, email, phone, specialRequests,
+						additionalServices, totalAmount);
 				response.sendRedirect(redirectUrl + "?successMsg=Booking updated successfully.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendRedirect(redirectUrl + "?errorMsg=Error processing request: " + e.getMessage());
+			response.sendRedirect(redirectUrl + "?errorMsg=Error processing request.");
 		}
 	}
 
@@ -104,26 +99,18 @@ public class BookingManagementServlet extends HttpServlet {
 	}
 
 	private void updateBooking(Connection connection, int bookingId, String firstName, String lastName, String email,
-			String phone, String checkIn, String checkOut, int adults, int children, String specialRequests,
-			String additionalServices, double totalAmount) throws Exception {
-
-		String query = "UPDATE bookings SET first_name = ?, last_name = ?, email = ?, phone = ?, "
-				+ "check_in = ?, check_out = ?, adults = ?, children = ?, special_requests = ?, "
+			String phone, String specialRequests, String additionalServices, double totalAmount) throws Exception {
+		String query = "UPDATE bookings SET first_name = ?, last_name = ?, email = ?, phone = ?, special_requests = ?, "
 				+ "additional_services = ?, total_amount = ? WHERE booking_id = ?";
-
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, firstName);
 			statement.setString(2, lastName);
 			statement.setString(3, email);
 			statement.setString(4, phone);
-			statement.setDate(5, java.sql.Date.valueOf(checkIn));
-			statement.setDate(6, java.sql.Date.valueOf(checkOut));
-			statement.setInt(7, adults);
-			statement.setInt(8, children);
-			statement.setString(9, specialRequests);
-			statement.setString(10, additionalServices);
-			statement.setDouble(11, totalAmount);
-			statement.setInt(12, bookingId);
+			statement.setString(5, specialRequests);
+			statement.setString(6, additionalServices);
+			statement.setDouble(7, totalAmount);
+			statement.setInt(8, bookingId);
 			statement.executeUpdate();
 		}
 	}

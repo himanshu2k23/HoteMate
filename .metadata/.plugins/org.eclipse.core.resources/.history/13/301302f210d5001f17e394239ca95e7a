@@ -71,7 +71,7 @@ body {
 
 			<button type="submit" class="btn btn-primary w-100">Login</button>
 
-			<div class="text-center mt-3">
+			<div class="text-center mt-2">
 				<a href="/HotelMate">Click here to get back to main page.</a>
 			</div>
 		</form>
