@@ -1,0 +1,260 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hotel Management - Admin</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="container mt-4">
+		<h2>Hotel Management</h2>
+
+		<!-- Success/Error Messages -->
+		<c:if test="${param.successMsg != null}">
+			<div class="alert alert-success alert-dismissible fade show">
+				${param.successMsg}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+			</div>
+		</c:if>
+		<c:if test="${param.errorMsg != null}">
+			<div class="alert alert-danger alert-dismissible fade show">
+				${param.errorMsg}
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+			</div>
+		</c:if>
+
+		<!-- Hotels Table -->
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Location</th>
+						<th>Price/Night</th>
+						<th>Rating</th>
+						<th>Available Rooms</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${hotels}" var="hotel">
+						<tr>
+							<td>${hotel.hotel_id}</td>
+							<td>${hotel.name}</td>
+							<td>${hotel.city},${hotel.state}</td>
+							<td>$${hotel.price_per_night}</td>
+							<td>
+								<div class="stars" style="color: gold;">
+									<c:forEach begin="1" end="5" var="i">
+										<i class="bi bi-star${i <= hotel.rating ? '-fill' : ''}"></i>
+									</c:forEach>
+									(${hotel.rating})
+								</div>
+							</td>
+							<td>${hotel.available_rooms}</td>
+							<td>
+								<button class="btn btn-primary btn-sm"
+									onclick="openEditModal(${hotel.hotel_id})">Modify</button>
+								<button class="btn btn-danger btn-sm"
+									onclick="deleteHotel(${hotel.hotel_id})">Delete</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Edit Modal -->
+	<div class="modal fade" id="editModal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Hotel</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">
+					<form id="editForm" method="POST" action="hotels">
+						<input type="hidden" name="action" value="update"> <input
+							type="hidden" name="hotel_id" id="edit_hotel_id">
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label>Name</label> <input type="text" class="form-control"
+									name="name" id="edit_name" required>
+							</div>
+							<div class="col-md-6">
+								<label>Price per Night</label> <input type="number" step="0.01"
+									class="form-control" name="price_per_night"
+									id="edit_price_per_night" required>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<label>Description</label>
+								<textarea class="form-control" name="description"
+									id="edit_description" rows="3" required></textarea>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label>Location</label> <input type="text" class="form-control"
+									name="location" id="edit_location" required>
+							</div>
+							<div class="col-md-6">
+								<label>City</label> <input type="text" class="form-control"
+									name="city" id="edit_city" required>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-4">
+								<label>State</label> <input type="text" class="form-control"
+									name="state" id="edit_state" required>
+							</div>
+							<div class="col-md-4">
+								<label>Country</label> <input type="text" class="form-control"
+									name="country" id="edit_country" required>
+							</div>
+							<div class="col-md-4">
+								<label>ZIP Code</label> <input type="text" class="form-control"
+									name="zip_code" id="edit_zip_code" required>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label>Rating</label> <input type="number" step="0.1" min="0"
+									max="5" class="form-control" name="rating" id="edit_rating"
+									required>
+							</div>
+							<div class="col-md-6">
+								<label>Available Rooms</label> <input type="number"
+									class="form-control" name="available_rooms"
+									id="edit_available_rooms" required>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-6">
+								<label>Contact Email</label> <input type="email"
+									class="form-control" name="contact_email"
+									id="edit_contact_email" required>
+							</div>
+							<div class="col-md-6">
+								<label>Contact Phone</label> <input type="tel"
+									class="form-control" name="contact_phone"
+									id="edit_contact_phone" required>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<label>Amenities</label>
+								<textarea class="form-control" name="amenities"
+									id="edit_amenities" rows="2" required></textarea>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-md-12">
+								<label>Images (comma-separated URLs)</label>
+								<textarea class="form-control" name="images" id="edit_images"
+									rows="2" required></textarea>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary"
+						onclick="submitEdit()">Save Changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+	<script>
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        const hotels = ${hotels}; // The servlet should stringify the hotels list as JSON
+
+        function openEditModal(hotelId) {
+            const hotel = hotels.find(h => h.hotel_id === hotelId);
+            if (hotel) {
+                // Populate form fields
+                document.getElementById('edit_hotel_id').value = hotel.hotel_id;
+                document.getElementById('edit_name').value = hotel.name;
+                document.getElementById('edit_description').value = hotel.description;
+                document.getElementById('edit_location').value = hotel.location;
+                document.getElementById('edit_city').value = hotel.city;
+                document.getElementById('edit_state').value = hotel.state;
+                document.getElementById('edit_country').value = hotel.country;
+                document.getElementById('edit_zip_code').value = hotel.zip_code;
+                document.getElementById('edit_price_per_night').value = hotel.price_per_night;
+                document.getElementById('edit_rating').value = hotel.rating;
+                document.getElementById('edit_amenities').value = hotel.amenities;
+                document.getElementById('edit_contact_email').value = hotel.contact_email;
+                document.getElementById('edit_contact_phone').value = hotel.contact_phone;
+                document.getElementById('edit_images').value = hotel.images;
+                document.getElementById('edit_available_rooms').value = hotel.available_rooms;
+                
+                editModal.show();
+            }
+        }
+
+        function submitEdit() {
+            document.getElementById('editForm').submit();
+        }
+
+        function deleteHotel(hotelId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This action cannot be undone!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = 'hotels';
+                    
+                    const actionInput = document.createElement('input');
+                    actionInput.type = 'hidden';
+                    actionInput.name = 'action';
+                    actionInput.value = 'delete';
+                    
+                    const idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = 'id';
+                    idInput.value = hotelId;
+                    
+                    form.appendChild(actionInput);
+                    form.appendChild(idInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -57,6 +57,7 @@
 		%>
 
 		<div class="table-responsive">
+		
 			<table class="table table-bordered table-hover">
 				<thead class="table-dark">
 					<tr>
@@ -85,13 +86,12 @@
 						<td><%=formattedDate%></td>
 
 						<td>
-							<!-- Delete Button -->
 							<form action="<%=request.getContextPath()%>/admin/users"
 								method="post" style="display: inline;">
 								<input type="hidden" name="action" value="delete"> <input
 									type="hidden" name="id" value="<%=user.get("id")%>">
 								<button type="submit" class="btn btn-danger btn-sm">Delete</button>
-							</form> <!-- Modify Button -->
+							</form> 
 							<button type="button" class="btn btn-warning btn-sm"
 								data-bs-toggle="modal" data-bs-target="#editUserModal"
 								data-id="<%=user.get("id")%>"
@@ -117,7 +117,6 @@
 			class="btn btn-primary mt-3">Back to Dashboard</a>
 	</div>
 
-	<!-- Modal for Editing User -->
 	<div class="modal fade" id="editUserModal" tabindex="-1"
 		aria-labelledby="editUserModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -160,16 +159,12 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
-		// Modal data population script
 		var editUserModal = document.getElementById('editUserModal');
 		editUserModal.addEventListener('show.bs.modal', function(event) {
-			// Extract data from the clicked button
 			var button = event.relatedTarget;
 			var userId = button.getAttribute('data-id');
 			var fullName = button.getAttribute('data-full_name');
 			var email = button.getAttribute('data-email');
-
-			// Update modal fields with data
 			document.getElementById('userId').value = userId;
 			document.getElementById('fullName').value = fullName;
 			document.getElementById('email').value = email;

@@ -1,0 +1,188 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page import="java.util.List, java.util.Map"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Manage Hotels</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<img src="http://localhost:8080/HotelMate/Images/HotelmateLogo.png"
+				alt="HotelMate Logo" width="60" height="45" class="d-inline-block">
+			<a class="navbar-brand" href="#">HotelMate Admin</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.request.contextPath}/admin/logout">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container my-4">
+		<h1 class="text-center mb-4">Hotel Management</h1>
+
+		<!-- Success and Error Messages -->
+		<%
+		String successMsg = request.getParameter("successMsg");
+		String errorMsg = request.getParameter("errorMsg");
+		if (successMsg != null) {
+		%>
+		<div class="alert alert-success"><%=successMsg%></div>
+		<%
+		}
+		if (errorMsg != null) {
+		%>
+		<div class="alert alert-danger"><%=errorMsg%></div>
+		<%
+		}
+		%>
+
+		<!-- Hotel Table -->
+		<table class="table table-bordered table-hover">
+			<thead class="table-dark">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Location</th>
+					<th>City</th>
+					<th>State</th>
+					<th>Price/Night</th>
+					<th>Available Rooms</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				List<Map<String, Object>> hotels = (List<Map<String, Object>>) request.getAttribute("hotels");
+				if (hotels != null) {
+					for (Map<String, Object> hotel : hotels) {
+				%>
+				<tr>
+					<td><%=hotel.get("hotel_id")%></td>
+					<td><%=hotel.get("name")%></td>
+					<td><%=hotel.get("location")%></td>
+					<td><%=hotel.get("city")%></td>
+					<td><%=hotel.get("state")%></td>
+					<td><%=hotel.get("price_per_night")%></td>
+					<td><%=hotel.get("available_rooms")%></td>
+					<td>
+						<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+							data-bs-target="#updateModal"
+							onclick="populateModal('<%=hotel.get("hotel_id")%>', '<%=hotel.get("name")%>', 
+                            '<%=hotel.get("description")%>', '<%=hotel.get("location")%>', 
+                            '<%=hotel.get("city")%>', '<%=hotel.get("state")%>', 
+                            '<%=hotel.get("price_per_night")%>', '<%=hotel.get("available_rooms")%>')">
+							Update</button>
+						<form action="/HotelMate/admin/hotels" method="post"
+							class="d-inline">
+							<input type="hidden" name="action" value="delete"> <input
+								type="hidden" name="id" value="<%=hotel.get("hotel_id")%>">
+							<button type="submit" class="btn btn-danger btn-sm"
+								onclick="return confirm('Are you sure you want to delete this hotel?')">Delete
+							</button>
+						</form>
+					</td>
+				</tr>
+				<%
+				}
+				} else {
+				%>
+				<tr>
+					<td colspan="8" class="text-center">No hotels found</td>
+				</tr>
+				<%
+				}
+				%>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Update Modal -->
+	<div class="modal fade" id="updateModal" tabindex="-1"
+		aria-labelledby="updateModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form action="/HotelMate/admin/hotels" method="post">
+					<input type="hidden" name="action" value="update"> <input
+						type="hidden" name="hotel_id" id="modal-hotel-id">
+					<div class="modal-header">
+						<h5 class="modal-title" id="updateModalLabel">Update Hotel</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="mb-3">
+							<label for="modal-hotel-name" class="form-label">Name</label> <input
+								type="text" class="form-control" id="modal-hotel-name"
+								name="name" required>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-description" class="form-label">Description</label>
+							<textarea class="form-control" id="modal-hotel-description"
+								name="description" required></textarea>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-location" class="form-label">Location</label>
+							<input type="text" class="form-control" id="modal-hotel-location"
+								name="location" required>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-city" class="form-label">City</label> <input
+								type="text" class="form-control" id="modal-hotel-city"
+								name="city" required>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-state" class="form-label">State</label> <input
+								type="text" class="form-control" id="modal-hotel-state"
+								name="state" required>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-price" class="form-label">Price/Night</label>
+							<input type="number" step="0.01" class="form-control"
+								id="modal-hotel-price" name="price_per_night" required>
+						</div>
+						<div class="mb-3">
+							<label for="modal-hotel-rooms" class="form-label">Available
+								Rooms</label> <input type="number" class="form-control"
+								id="modal-hotel-rooms" name="available_rooms" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Save
+							Changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function populateModal(id, name, description, location, city, state,
+				price, rooms) {
+			document.getElementById('modal-hotel-id').value = id;
+			document.getElementById('modal-hotel-name').value = name;
+			document.getElementById('modal-hotel-description').value = description;
+			document.getElementById('modal-hotel-location').value = location;
+			document.getElementById('modal-hotel-city').value = city;
+			document.getElementById('modal-hotel-state').value = state;
+			document.getElementById('modal-hotel-price').value = price;
+			document.getElementById('modal-hotel-rooms').value = rooms;
+		}
+	</script>
+</body>
+</html>
