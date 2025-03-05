@@ -340,3 +340,9 @@
 0:0:0:0:0:0:0:1 - - [19/Jan/2025:02:47:24 +0530] "GET /HotelMate/admin/bookings HTTP/1.1" 200 11582
 0:0:0:0:0:0:0:1 - - [19/Jan/2025:02:48:53 +0530] "GET /HotelMate/admin/dashboard HTTP/1.1" 200 2519
 0:0:0:0:0:0:0:1 - - [19/Jan/2025:02:48:54 +0530] "GET /HotelMate/admin/hotels HTTP/1.1" 200 27304
+127.0.0.1 - - [19/Jan/2025:12:35:55 +0530] "GET / HTTP/1.1" 404 752
+0:0:0:0:0:0:0:1 - - [19/Jan/2025:12:38:12 +0530] "GET /HotelMate/ HTTP/1.1" 200 18891
+0:0:0:0:0:0:0:1 - - [19/Jan/2025:12:38:14 +0530] "GET /HotelMate/login.jsp HTTP/1.1" 200 6592
+0:0:0:0:0:0:0:1 - - [19/Jan/2025:12:38:22 +0530] "POST /HotelMate/LoginServlet HTTP/1.1" 200 6681
+0:0:0:0:0:0:0:1 - - [19/Jan/2025:12:38:54 +0530] "GET /HotelMate/signup.jsp HTTP/1.1" 200 7138
+0:0:0:0:0:0:0:1 - - [19/Jan/2025:12:39:05 +0530] "POST /HotelMate/SignupServlet HTTP/1.1" 200 7363
