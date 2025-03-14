@@ -15,7 +15,7 @@ HotelMate is a Java-based Dynamic Web Project designed to optimize the process o
 - **Backend**: Java 17, Java Servlets 4.0, JSP 2.3, JDBC 4.2
 - **Frontend**: JSP 2.3, HTML5, CSS3
 - **Database**: MySQL 8.0 with InnoDB storage engine
-- **Server**: Apache Tomcat 9.0
+- **Server**: Apache Tomcat 10.0
 - **Version Control**: Git
 
 ## Dependencies
